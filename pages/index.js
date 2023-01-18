@@ -4,7 +4,8 @@ import { Inter } from '@next/font/google'
 import styles from '../styles/Home.module.css'
 import { useSession, getSession } from "next-auth/react";
 import { signOut } from "next-auth/react";
-const inter = Inter({ subsets: ['latin'] })
+import Table from '../components/table'
+// const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
   const { data: session } = useSession();
@@ -21,6 +22,7 @@ export default function Home() {
       </Head>
       <main className={styles.main}>
         {session?User({session}): Guest()}
+        <Table></Table>
       </main>
     </>
   );

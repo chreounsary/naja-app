@@ -1,58 +1,80 @@
+import React from 'react';
+import { useFormik } from 'formik';
+import { useRouter } from 'next/router';
+import { getSession } from "next-auth/react";
 
-const Signup = () => {
+const SignupForm = () => {
+  const router = useRouter();
+  const formik = useFormik({
+    initialValues: {
+      name: '',
+      email: '',
+      password: '',
+    },
+    onSubmit: async values => {
+      const options = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json'},
+        body: JSON.stringify(values)
+      };
+      await fetch('http://localhost:3000/api/auth/signup', options)
+        .then((data) =>{
+          if(data.status == 201)router.push('http://localhost:3000/profile')
+        })
+    },
+  });
   return (
-    <section className='h-full gradient-form bg-gray-200 md:h-screen'>
-      <div className='container py-12 px-6 h-full'>
-        <div className=' flex justify-center items-center flex-wrap h-full g-6 text-gray-800'>
-          <div className=''>
-            <div className='block bg-white shadow-lg rounded-lg'>
-              <div className='lg:flex lg:flex-wrap g-0'>
-                <div className='px-4 md:px-0'>
-                  <div className='md:p-12 md:mx-6'>
-                    <div className='text-center'>
-                      <h4 className='text-xl font-semibold mt-1 mb-12 pb-1'>
-                        Face Authentication by FaceIO
-                      </h4>
-                    </div>
-                    <form>
-                      <p className='mb-4'>
-                        Sign Up
-                      </p>
-                      <div className='mb-4'>
-                        <input
-                          type='email'
-                          className='form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none'
-                          placeholder='Your Email'
-                          name='userEmail'
-                        />
-                      </div>
-                      <div className='mb-4'>
-                        <input
-                          type='password'
-                          className='form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none'
-                          placeholder='Password'
-                          name='pin'
-                        />
-                      </div>
-                      <div className='text-center pt-1 mb-12 pb-1'>
-                        <button
-                          className='bg-green inline-block px-6 py-2.5 text-black font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:shadow-lg focus:outline-none focus:ring-0 active:shadow-lg transition duration-150 ease-in-out w-full mb-3'
-                          type='button'
-                          // onClick={handleSubmit}
-                        >
-                          Sign Up
-                        </button>
-                      </div>
-                    </form>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
+    <form onSubmit={formik.handleSubmit}>
+      <label htmlFor="name">Name Name</label>
+      <input
+        id="name"
+        name="name"
+        type="text"
+        onChange={formik.handleChange}
+        value={formik.values.name}
+      />      
+      <br/>
+      <br/>
+      <label htmlFor="email">Email</label>
+      <input
+        id="email"
+        name="email"
+        type="text"
+        onChange={formik.handleChange}
+        value={formik.values.email}
+      />
 
-export default Signup;
+      <br/>
+      <br/>
+      <label htmlFor="password">password </label>
+      <input
+        id="password"
+        name="password"
+        type="password"
+        onChange={formik.handleChange}
+        value={formik.values.password}
+      />
+
+      <br/>
+      <br/>
+      <button type="submit">Submit</button>
+    </form>
+  );
+};
+
+export default SignupForm;
+
+export async function getServerSideProps ({req, res, next}){
+  const session = await getSession({req});
+  if (session) {
+    return{
+      redirect: {
+        destination: '/',
+        permanent: false
+      }
+    }
+  }
+  return {
+    props: {session}
+  }
+}
