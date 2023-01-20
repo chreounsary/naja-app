@@ -49,21 +49,20 @@ export default function Table(options) {
                     </tr>
                 </thead>
                 <tbody>
-                {data?.users?.map((data, key) => (
-                    <tr>
-                        
-                        <td class="px-6 py-4">
-                            {data.name} {key}
+                {data.users.map((data, index )=> (
+                    <tr key={index}>
+                        <td class="px-6 py-4" >
+                            {data?.name}
+                        </td>
+                        {/* <td class="px-6 py-4">
+                            <p>{data?.email}</p>
                         </td>
                         <td class="px-6 py-4">
-                            <p>{data.email}</p>
+                            {data?.role}
                         </td>
                         <td class="px-6 py-4">
-                            {data.role}
-                        </td>
-                        <td class="px-6 py-4">
-                        {data.is_active}
-                        </td>
+                        {data?.is_active}
+                        </td> */}
                         <td class="px-6 py-4 text-right">
                             <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Delete</a>
                             <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
