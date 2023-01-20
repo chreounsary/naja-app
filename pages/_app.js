@@ -4,8 +4,12 @@
 //   return <Component {...pageProps} />
 // }
 
+
 import { SessionProvider } from "next-auth/react"
 import { QueryClientProvider, QueryClient } from "react-query";
+import { store } from "../redux/store";
+import { Provider } from "react-redux";
+import './../styles/globals.css';
 
 const queryClient = new QueryClient();
 
@@ -13,7 +17,9 @@ function App({Component, pageProps}){
   return (
     <SessionProvider session={pageProps.session}>
       <QueryClientProvider client={queryClient}>
-        <Component {...pageProps} />
+        <Provider store={store}>
+          <Component {...pageProps} />
+        </Provider>
       </QueryClientProvider>
     </SessionProvider>
   );

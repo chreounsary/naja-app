@@ -4,6 +4,7 @@ const profileSchema = new Schema({
   user_id: String,
   display_name: String,
   pic: String,
+  is_approved: Boolean,
   profile_completed: String
 })
 

@@ -27,7 +27,7 @@ export const authOptions = {
         connectMongo().catch(err => {error: "Connections failed.."});
         const result = await Users.findOne({email: credentials.email});
         if (!result){
-          throw new Error("Couldn't find'")
+          throw new Error("Couldn't find")
         }
         // compare
         const checkPassword = await compare(credentials.password, result.password);

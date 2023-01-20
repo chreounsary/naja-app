@@ -6,6 +6,7 @@ export default async function handler(req, res) {
   const {method} = req;
   switch (method) {
     case 'GET':
+      console.log(req);
       getUsers(req, res)
       break;
     case 'POST':
