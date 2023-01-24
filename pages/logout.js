@@ -14,17 +14,17 @@ const Logout = () => {
 
 export default Logout;
 
-// export async function getServerSideProps ({req, res, next}){
-//   const session = await getSession({req});
-//   if (!session) {
-//     return{
-//       redirect: {
-//         destination: '/login',
-//         permanent: false
-//       }
-//     }
-//   }
-//   return {
-//     props: {session}
-//   }
-// }
+export async function getServerSideProps ({req, res, next}){
+  const session = await getSession({req});
+  if (!session) {
+    return{
+      redirect: {
+        destination: '/login',
+        permanent: false
+      }
+    }
+  }
+  return {
+    props: {session}
+  }
+}

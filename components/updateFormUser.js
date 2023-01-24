@@ -1,8 +1,10 @@
 import { useReducer } from 'react'
 import { IoAddCircleSharp } from "react-icons/io5";
 import { isError, useMutation, useQuery, useQueryClient } from 'react-query';
-import { addUser, getUsers } from '../../lib/helper';
-import Success from '../success';
+import { useSelector } from 'react-redux';
+import { addUser, getUsers } from '../lib/helper';
+import Success from './success';
+
 const formReducer = (state, event) => {
   
   console.log(event.target.value);
@@ -13,11 +15,12 @@ const formReducer = (state, event) => {
   }
 }
 
-export default function AddUserForm() {
+export default function UpdateUserForm() {
   // () => {} function
   // {} init val
   const [formData, setFormData] = useReducer(formReducer, {});
   const queryClient = useQueryClient();
+  const formId = useSelector((state) => state.app.formId);
   const addMutation = useMutation(addUser, {
     onSuccess: () => {
       queryClient.prefetchQuery('users', getUsers)

@@ -23,7 +23,6 @@ const userNavigation = [
   { name: 'Connect Wallet', href: 'wallet', class: 'wallet' },
   { name: 'Your Profile', href: 'profile', class: 'profile' },
   { name: 'Settings', href: '#' },
-  { name: 'Logout', href: '/logout' },
 ]
 
 

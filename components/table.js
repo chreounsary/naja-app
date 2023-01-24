@@ -2,35 +2,34 @@ import { getUsers } from "../lib/helper";
 import { useQuery } from "react-query";
 import { useSelector, useDispatch } from "react-redux";
 import { toggleChangeAction } from "../redux/reducer";
-import Example from "./users/addUserForm";
+import { useState } from "react";
+import AddUserForm from "./users/addUserForm";
+import UpdateUserForm from "./updateFormUser";
 export default function Table(options) {
   const {isLoading, isError, data,  error} = useQuery('users', getUsers)
   const visible = useSelector((state) => state.app.client.toggleForm)
+  const [visibleForm, setVisbleForm] = useState(false);
   const dispatch = useDispatch();
-  if (isLoading) return () => {
-    <div>
-      is Loading...
-    </div>
-  }
-  if (isError) return () => {
-    <div>
-      is Error...
-    </div>
-  }
+
   const handleUpdate = (e) => {
     dispatch(toggleChangeAction())
+    setVisbleForm(visibleForm ? false : true)
+
     console.log(visible);
   }
   const handleDelete = (e) => {
     console.log('Delete click button');
   }
+  // () => {} function
+  // {} init val
+
   return (
     <>
-  <Example/>
+        {visibleForm ? <UpdateUserForm/> : <></>}
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                    <tr>
+                    <tr> 
                         <th scope="col" class="px-6 py-3">
                             Username
                         </th>
@@ -49,23 +48,23 @@ export default function Table(options) {
                     </tr>
                 </thead>
                 <tbody>
-                {data.users.map((data, index )=> (
-                    <tr key={index}>
-                        <td class="px-6 py-4" >
-                            {data?.name}
-                        </td>
-                        {/* <td class="px-6 py-4">
-                            <p>{data?.email}</p>
+                {data?.users?.map((data, key) => (
+                    <tr key={key}>
+                        <td class="px-6 py-4">
+                            {data.name}
                         </td>
                         <td class="px-6 py-4">
-                            {data?.role}
+                            <p>{data.email}</p>
                         </td>
                         <td class="px-6 py-4">
-                        {data?.is_active}
-                        </td> */}
+                            {data.role}
+                        </td>
+                        <td class="px-6 py-4">
+                        {data.is_active}
+                        </td>
                         <td class="px-6 py-4 text-right">
-                            <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Delete</a>
-                            <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                            <button onClick={handleDelete}>Delete</button>
+                            <button onClick={handleUpdate}>Edit</button>
                         </td>
                     </tr>
                 ))}

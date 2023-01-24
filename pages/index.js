@@ -12,9 +12,11 @@ import Layout from '../layout/layout';
 
 export default function Home() {
   const { data: session } = useSession();
+
   const  handleLogout= () => {
     signOut();
   }
+
   return (
     <Layout>
         <Table/>

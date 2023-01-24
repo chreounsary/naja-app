@@ -3,7 +3,7 @@ import { useSession, getSession, signOut } from "next-auth/react";
 
 
 export default function profile() {
-  // const { data: session } = useSession();
+  const { data: session } = useSession();
   const  handleLogout= () => {
     signOut();
   }
@@ -71,17 +71,17 @@ export default function profile() {
   )
 }
 
-// export async function getServerSideProps ({req, res, next}){
-//   const session = await getSession({req});
-//   if (!session) {
-//     return{
-//       redirect: {
-//         destination: '/login',
-//         permanent: false
-//       }
-//     }
-//   }
-//   return {
-//     props: {session}
-//   }
-// }
+export async function getServerSideProps ({req, res, next}){
+  const session = await getSession({req});
+  if (!session) {
+    return{
+      redirect: {
+        destination: '/login',
+        permanent: false
+      }
+    }
+  }
+  return {
+    props: {session}
+  }
+}
